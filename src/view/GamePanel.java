@@ -106,6 +106,10 @@ public class GamePanel extends JPanel {
     }
 
     public void updateBoard(int[][] board) {
+        repaint();
+        if (animating > 0) {
+            return;
+        }
         this.board = board;
     }
 

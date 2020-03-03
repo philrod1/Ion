@@ -39,7 +39,9 @@ public class Game {
 
     public boolean handleKeyCode(int keyCode) {
         Point loc = player.getLocation();
-        board.deleteParticle(loc.x, loc.y);
+        if (board.deleteParticle(loc.x, loc.y) == null) {
+            return false;
+        }
         switch(keyCode) {
             case 104: //UP
                 if (loc.y > 0) {

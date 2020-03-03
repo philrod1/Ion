@@ -25,7 +25,7 @@ public class TempMain {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.addKeyListener(new KeyAdapter() {
                 @Override
-                public void keyReleased(KeyEvent e) {
+                public void keyPressed(KeyEvent e) {
                     Point prev = game.getPlayerLocation();
                     boolean result = game.handleKeyCode(e.getKeyCode());
                     Point next = game.getPlayerLocation();
@@ -51,7 +51,7 @@ public class TempMain {
         });
 
         // Repaint the view at 60 FPS
-        final Runnable task = gp::repaint;
+        final Runnable task = () -> gp.updateBoard(game.getParticleTypeArray());
         ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
         ses.scheduleAtFixedRate(task, 0, (int)(1000 / 60.0), TimeUnit.MILLISECONDS);
 
