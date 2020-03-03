@@ -56,14 +56,14 @@ public class GamePanel extends JPanel {
         double sy = getHeight() / (double) h;
         double distX = (animationStop.x - animationStart.x) * sx;
         double distY = (animationStop.y - animationStart.y) * sy;
-        double px = sx/1.1 + Math.sin(step * pulseFrame) * (sx * 0.1);
-        double py = sy/1.1 + Math.sin(step * pulseFrame) * (sx * 0.1);
-        double posX = distX/(FRAMES/4) * animationFrame + animationStart.x * sx;
-        double posY = distY/(FRAMES/4) * animationFrame + animationStart.y * sy;
+        double px = sx * 0.8 + Math.sin(step * pulseFrame) * (sx * 0.2);
+        double py = sy * 0.8 + Math.sin(step * pulseFrame) * (sx * 0.2);
+        double posX = distX * Math.sin(step * animationFrame * 4) + animationStart.x * sx;
+        double posY = distY * Math.sin(step * animationFrame * 4) + animationStart.y * sy;
         g2.setColor(COLOURS[animating]);
         g2.fillOval((int)(((posX + 2) - px/2) + sx/2), (int)(((posY + 1)-py/2) + sy/2), (int)px-2, (int)py-1);
         animationFrame++;
-        if (animationFrame == FRAMES/4) {
+        if (animationFrame == FRAMES/8) {
             animationFrame = 0;
             board[animationStop.y][animationStop.x] = animating;
             animating = 0;
@@ -78,8 +78,8 @@ public class GamePanel extends JPanel {
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         double sx = getWidth() / (double) w;
         double sy = getHeight() / (double) h;
-        double px = sx/1.1 + Math.sin(step * pulseFrame) * (sx * 0.1);
-        double py = sy/1.1 + Math.sin(step * pulseFrame) * (sy * 0.1);
+        double px = sx * 0.8 + Math.sin(step * pulseFrame) * (sx * 0.2);
+        double py = sy * 0.8 + Math.sin(step * pulseFrame) * (sy * 0.2);
         for (int y = 0 ; y < h ; y++) {
             for (int x = 0 ; x < w ; x++) {
                 int type = board[y][x];

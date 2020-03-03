@@ -41,24 +41,44 @@ public class Game {
         Point loc = player.getLocation();
         board.deleteParticle(loc.x, loc.y);
         switch(keyCode) {
-            case 38: //UP
+            case 104: //UP
                 if (loc.y > 0) {
                     player.moveTowardsLocation(new Point(loc.x, loc.y - 1));
                 }
                 break;
-            case 40: // DOWN
+            case 98: // DOWN
                 if (loc.y < height - 1) {
                     player.moveTowardsLocation(new Point(loc.x, loc.y + 1));
                 }
                 break;
-            case 37: //LEFT
+            case 100: //LEFT
                 if (loc.x > 0) {
                     player.moveTowardsLocation(new Point(loc.x - 1, loc.y));
                 }
                 break;
-            case 39: // RIGHT
+            case 102: // RIGHT
                 if (loc.x < width - 1) {
                     player.moveTowardsLocation(new Point(loc.x + 1, loc.y));
+                }
+                break;
+            case 103: // UP-LEFT
+                if (loc.y > 0 && loc.x > 0) {
+                    player.moveTowardsLocation(new Point(loc.x - 1, loc.y - 1));
+                }
+                break;
+            case 105: // UP-RIGHT
+                if (loc.y > 0 && loc.x < width - 1) {
+                    player.moveTowardsLocation(new Point(loc.x + 1, loc.y - 1));
+                }
+                break;
+            case 97: // DOWN-LEFT
+                if (loc.y < height - 1 && loc.x > 0) {
+                    player.moveTowardsLocation(new Point(loc.x - 1, loc.y + 1));
+                }
+                break;
+            case 99: // DOWN-RIGHT
+                if (loc.y < height - 1 && loc.x < width - 1) {
+                    player.moveTowardsLocation(new Point(loc.x + 1, loc.y + 1));
                 }
                 break;
             default:
