@@ -2,6 +2,9 @@ package model.board;
 
 import model.particles.Particle;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class ArrayBoard implements GameBoard {
 
     private final Particle[][] board;
@@ -47,6 +50,19 @@ public class ArrayBoard implements GameBoard {
             }
         }
         return types;
+    }
+
+    @Override
+    public List<Particle> getAllParticles() {
+        List<Particle> allParticles = new LinkedList<>();
+        for (Particle[] row : board) {
+            for (Particle particle : row) {
+                if (particle != null) {
+                    allParticles.add(particle);
+                }
+            }
+        }
+        return allParticles;
     }
 
     @Override

@@ -1,7 +1,9 @@
 package view;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import java.awt.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GamePanel extends JPanel {
 
@@ -21,10 +23,11 @@ public class GamePanel extends JPanel {
 
     private int[][] board;
     private final int w, h;
-    private int animating;
-    private Point animationStart, animationStop;
+
+    private final List<AnimationData> animations;
 
     public GamePanel (int[][] board) {
+        animations = new LinkedList<>();
         setLayout(null);
         this.board = board;
         w = board[0].length;
@@ -38,7 +41,7 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         drawGrid(g);
         drawParticles(g);
-        if (animating > 0) {
+        if (!animations.isEmpty()) {
             drawAnimation(g);
         }
         g.dispose();
@@ -54,19 +57,18 @@ public class GamePanel extends JPanel {
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         double sx = getWidth() / (double) w;
         double sy = getHeight() / (double) h;
-        double distX = (animationStop.x - animationStart.x) * sx;
-        double distY = (animationStop.y - animationStart.y) * sy;
-        double px = sx * 0.8 + Math.sin(step * pulseFrame) * (sx * 0.2);
-        double py = sy * 0.8 + Math.sin(step * pulseFrame) * (sx * 0.2);
-        double posX = distX * Math.sin(step * animationFrame * 4) + animationStart.x * sx;
-        double posY = distY * Math.sin(step * animationFrame * 4) + animationStart.y * sy;
-        g2.setColor(COLOURS[animating]);
-        g2.fillOval((int)(((posX + 2) - px/2) + sx/2), (int)(((posY + 1)-py/2) + sy/2), (int)px-2, (int)py-1);
+        for (AnimationData animation : animations) {
+            int[] data = animation.getData(sx, sy, step, pulseFrame, animationFrame);
+            g2.setColor(COLOURS[animation.getType()]);
+            g2.fillOval(data[0], data[1], data[2], data[3]);
+        }
         animationFrame++;
         if (animationFrame == FRAMES/8) {
             animationFrame = 0;
-            board[animationStop.y][animationStop.x] = animating;
-            animating = 0;
+            for (AnimationData animation : animations) {
+                board[animation.getStop().y][animation.getStop().x] = animation.getType();
+            }
+            animations.clear();
         }
     }
 
@@ -78,12 +80,13 @@ public class GamePanel extends JPanel {
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         double sx = getWidth() / (double) w;
         double sy = getHeight() / (double) h;
-        double px = sx * 0.8 + Math.sin(step * pulseFrame) * (sx * 0.2);
-        double py = sy * 0.8 + Math.sin(step * pulseFrame) * (sy * 0.2);
         for (int y = 0 ; y < h ; y++) {
             for (int x = 0 ; x < w ; x++) {
                 int type = board[y][x];
                 if (type > 0) {
+                    int pf = (pulseFrame + 21 * type) % FRAMES;
+                    double px = sx * 0.8 + Math.sin(step * pf) * (sx * 0.2);
+                    double py = sy * 0.8 + Math.sin(step * pf) * (sy * 0.2);
                     g2.setColor(COLOURS[type]);
                     g2.fillOval((int)(((x * sx + 2) - px/2) + sx/2), (int)(((y * sy + 1)-py/2) + sy/2), (int)px-2, (int)py-1);
                 }
@@ -107,7 +110,7 @@ public class GamePanel extends JPanel {
 
     public void updateBoard(int[][] board) {
         repaint();
-        if (animating > 0) {
+        if (!animations.isEmpty()) {
             return;
         }
         this.board = board;
@@ -120,11 +123,8 @@ public class GamePanel extends JPanel {
     }
 
     public void animateMove(Point prev, Point next) {
-        animating = board[prev.y][prev.x];
-        if (animating > 0) {
-            board[prev.y][prev.x] = 0;
-            animationStart = prev;
-            animationStop = next;
-        }
+        int type = board[prev.y][prev.x];
+        board[prev.y][prev.x] = 0;
+        animations.add(new AnimationData(type, prev, next));
     }
 }

@@ -1,5 +1,6 @@
 package controller;
 
+import model.particles.Particle;
 import view.GamePanel;
 
 import javax.swing.*;
@@ -14,8 +15,8 @@ public class TempMain {
 
     public static void main(String[] args) {
         final int scale = 50;
-        final int width = 10;
-        final int height = 10;
+        final int width = 15;
+        final int height = 15;
         Game game = new Game(width, height);
         GamePanel gp = new GamePanel(game.getParticleTypeArray());
         SwingUtilities.invokeLater(() -> {
@@ -31,6 +32,13 @@ public class TempMain {
                     Point next = game.getPlayerLocation();
                     if (result) {
                         gp.animateMove(prev, next);
+                        for (Particle p : game.getAllParticles()) {
+                            Point start = p.getLocation();
+                            Point stop = p.moveTowardsLocation(next);
+                            gp.animateMove(start, stop);
+                            p.setLocation(stop);
+                            game.moveParticle(start);
+                        }
                     }
                 }
             });

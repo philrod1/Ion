@@ -6,6 +6,7 @@ import model.particles.Particle;
 import model.particles.PlayerParticle;
 
 import java.awt.Point;
+import java.util.List;
 import java.util.Random;
 
 public class Game {
@@ -19,7 +20,8 @@ public class Game {
     public Game(int width, int height) {
         this.width = width;
         this.height = height;
-        board = BoardFactory.newEmptyBoard(width, height);
+//        board = BoardFactory.newSingleAttackParticleBoard(width, height);
+        board = BoardFactory.newMultipleAttackParticleBoard(width, height, 10);
         player = new PlayerParticle();
         player.setLocation(new Point(RNG.nextInt(board.getWidth()), RNG.nextInt(board.getHeight())));
         board.putParticle(player);
@@ -83,6 +85,9 @@ public class Game {
                     player.moveTowardsLocation(new Point(loc.x + 1, loc.y + 1));
                 }
                 break;
+            case 101: // Stay still
+                board.putParticle(player);
+                return true;
             default:
         }
         board.putParticle(player);
@@ -99,5 +104,14 @@ public class Game {
 
     public Point getPlayerLocation() {
         return player.getLocation();
+    }
+
+    public List<Particle> getAllParticles() {
+        return board.getAllParticles();
+    }
+
+    public void moveParticle(Point start) {
+        Particle p = board.deleteParticle(start.x, start.y);
+        board.putParticle(p);
     }
 }
