@@ -1,7 +1,9 @@
 package model.board;
 
+import model.particles.BlackHole;
 import model.particles.Particle;
 
+import java.awt.Point;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +11,7 @@ public class ArrayBoard implements GameBoard {
 
     private final Particle[][] board;
 
-    protected ArrayBoard(int width, int height) {
+    ArrayBoard(int width, int height) {
         board = new Particle[height][width];
     }
 
@@ -37,7 +39,14 @@ public class ArrayBoard implements GameBoard {
 
     @Override
     public void putParticle(Particle p) {
-        board[p.getLocation().y][p.getLocation().x] = p;
+        int x = p.getLocation().x;
+        int y = p.getLocation().y;
+        if (board[y][x] == null) {
+            board[y][x] = p;
+        } else {
+            board[y][x] = new BlackHole();
+            board[y][x].setLocation(new Point(x, y));
+        }
     }
 
     @Override
@@ -57,7 +66,7 @@ public class ArrayBoard implements GameBoard {
         List<Particle> allParticles = new LinkedList<>();
         for (Particle[] row : board) {
             for (Particle particle : row) {
-                if (particle != null) {
+                if (particle != null && particle.getTypeId() != 3) {
                     allParticles.add(particle);
                 }
             }

@@ -13,7 +13,7 @@ public class GamePanel extends JPanel {
             new Color(0,0,0,0),
             Color.RED,
             Color.BLUE,
-            Color.GREEN
+            Color.BLACK
     };
 
     private final static double step = Math.PI / FRAMES;
@@ -33,7 +33,7 @@ public class GamePanel extends JPanel {
         w = board[0].length;
         h = board.length;
         System.out.println(("Width = " + w + ", height = " + h));
-        setBackground(Color.BLACK);
+        setBackground(new Color(20,20,40));
     }
 
     @Override
@@ -95,15 +95,15 @@ public class GamePanel extends JPanel {
     }
 
     private void drawGrid(Graphics g) {
-        g.setColor(Color.ORANGE);
+        g.setColor(new Color(130,130,50));
         double width = getWidth();
         double height = getHeight();
         double sx = width / w;
         double sy = height / h;
-        for (int x = 0 ; x <= w ; x++) {
+        for (int x = 1 ; x <= w ; x++) {
             g.drawLine((int)(x * sx), 0, (int)(x * sx), getHeight());
         }
-        for (int y = 0 ; y <= h ; y++) {
+        for (int y = 1 ; y <= h ; y++) {
             g.drawLine(0, (int)(sy * y), getWidth(), (int)(sy * y));
         }
     }

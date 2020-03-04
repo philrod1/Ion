@@ -4,7 +4,7 @@ import java.awt.*;
 
 public abstract class AbstractParticle implements Particle {
 
-    protected Point location;
+    Point location;
     private boolean alive;
 
     @Override

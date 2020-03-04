@@ -2,6 +2,7 @@ package controller;
 
 import model.board.BoardFactory;
 import model.board.GameBoard;
+import model.particles.BlackHole;
 import model.particles.Particle;
 import model.particles.PlayerParticle;
 
@@ -112,6 +113,14 @@ public class Game {
 
     public void moveParticle(Point start) {
         Particle p = board.deleteParticle(start.x, start.y);
+        board.putParticle(p);
+    }
+
+    public void deleteParticle(Particle p) {
+        board.deleteParticle(p.getLocation().x, p.getLocation().y);
+    }
+
+    public void putParticle(Particle p) {
         board.putParticle(p);
     }
 }

@@ -4,8 +4,10 @@ import model.particles.Particle;
 import view.GamePanel;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Point;
 import java.awt.event.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -32,12 +34,18 @@ public class TempMain {
                     Point next = game.getPlayerLocation();
                     if (result) {
                         gp.animateMove(prev, next);
-                        for (Particle p : game.getAllParticles()) {
-                            Point start = p.getLocation();
-                            Point stop = p.moveTowardsLocation(next);
-                            gp.animateMove(start, stop);
-                            p.setLocation(stop);
-                            game.moveParticle(start);
+                        List<Particle> particles = game.getAllParticles();
+                        for (Particle p : particles) {
+                            game.deleteParticle(p);
+                        }
+                        for (Particle p : particles) {
+                            if (p.getTypeId() != 3) {
+                                Point start = p.getLocation();
+                                Point stop = p.moveTowardsLocation(next);
+                                gp.animateMove(start, stop);
+                                p.setLocation(stop);
+                                game.putParticle(p);
+                            }
                         }
                     }
                 }
