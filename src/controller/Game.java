@@ -42,10 +42,11 @@ public class Game {
 
     public boolean handleKeyCode(int keyCode) {
         Point loc = player.getLocation();
-        if (board.deleteParticle(loc.x, loc.y) == null) {
-            return false;
-        }
+        board.deleteParticle(loc.x, loc.y);
         switch(keyCode) {
+            case 32:
+                attack(loc);
+                break;
             case 104: //UP
                 if (loc.y > 0) {
                     player.moveTowardsLocation(new Point(loc.x, loc.y - 1));
@@ -95,8 +96,21 @@ public class Game {
         return !player.getLocation().equals(loc);
     }
 
+    public void attack(Point location) {
+        for (int y = location.y - 1 ; y <= location.y + 1 ; y++) {
+            for (int x = location.x - 1 ; x <= location.x + 1 ; x++) {
+                if (!(x == location.x && y == location.y)) {
+                    board.deleteParticle(x, y);
+                }
+            }
+        }
+    }
+
     public boolean playerClick(Point point) {
         Point loc = player.getLocation();
+        if (loc.equals(point)) {
+            return true;
+        }
         board.deleteParticle(loc.x, loc.y);
         player.moveTowardsLocation(point);
         board.putParticle(player);

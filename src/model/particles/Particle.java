@@ -9,4 +9,5 @@ public interface Particle {
     boolean isAlive();
     void setDead();
     int getTypeId();
+
 }

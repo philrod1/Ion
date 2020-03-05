@@ -32,6 +32,15 @@ public class ArrayBoard implements GameBoard {
 
     @Override
     public Particle deleteParticle(int x, int y) {
+        if (x < 0 || x >= getWidth()) {
+            return null;
+        }
+        if (y < 0 || y >= getHeight()) {
+            return null;
+        }
+        if (board[y][x] == null) {
+            return null;
+        }
         Particle p = board[y][x];
         board[y][x] = null;
         return p;

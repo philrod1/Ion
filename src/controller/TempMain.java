@@ -52,13 +52,31 @@ public class TempMain {
             });
             gp.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void mousePressed(MouseEvent e) {
                     super.mouseClicked(e);
-                    Point prev = game.getPlayerLocation();
-                    Point next = gp.getGridCoords(e.getPoint());
-                    boolean result = game.playerClick(next);
-                    if (result) {
-                        gp.animateMove(prev, next);
+                    if (e.getButton() == 1) {
+                        Point prev = game.getPlayerLocation();
+                        Point next = gp.getGridCoords(e.getPoint());
+                        boolean result = game.playerClick(next);
+                        if (result) {
+                            gp.animateMove(prev, next);
+                            List<Particle> particles = game.getAllParticles();
+                            for (Particle p : particles) {
+                                game.deleteParticle(p);
+                            }
+                            for (Particle p : particles) {
+                                if (p.getTypeId() != 3) {
+                                    Point start = p.getLocation();
+                                    Point stop = p.moveTowardsLocation(next);
+                                    gp.animateMove(start, stop);
+                                    p.setLocation(stop);
+                                    game.putParticle(p);
+                                }
+                            }
+                        }
+                    }
+                    if (e.getButton() == 3) {
+                        game.attack(game.getPlayerLocation());
                     }
                 }
             });
