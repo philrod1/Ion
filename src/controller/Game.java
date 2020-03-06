@@ -22,7 +22,7 @@ public class Game {
         this.width = width;
         this.height = height;
 //        board = BoardFactory.newSingleAttackParticleBoard(width, height);
-        board = BoardFactory.newMultipleAttackParticleBoard(width, height, 10);
+        board = BoardFactory.newMultipleAttackParticleBoard(width, height, 20);
         player = new PlayerParticle();
         player.setLocation(new Point(RNG.nextInt(board.getWidth()), RNG.nextInt(board.getHeight())));
         board.putParticle(player);
@@ -46,7 +46,8 @@ public class Game {
         switch(keyCode) {
             case 32:
                 attack(loc);
-                break;
+                board.putParticle(player);
+                return true;
             case 104: //UP
                 if (loc.y > 0) {
                     player.moveTowardsLocation(new Point(loc.x, loc.y - 1));
@@ -136,5 +137,9 @@ public class Game {
 
     public void putParticle(Particle p) {
         board.putParticle(p);
+    }
+
+    public Particle getParticle(int x, int y) {
+        return board.getParticle(x, y);
     }
 }

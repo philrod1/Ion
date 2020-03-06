@@ -16,9 +16,9 @@ public class TempMain {
 
 
     public static void main(String[] args) {
-        final int scale = 50;
-        final int width = 15;
-        final int height = 15;
+        final int scale = 30;
+        final int width = 30;
+        final int height = 30;
         Game game = new Game(width, height);
         GamePanel gp = new GamePanel(game.getParticleTypeArray());
         SwingUtilities.invokeLater(() -> {
@@ -76,12 +76,30 @@ public class TempMain {
                         }
                     }
                     if (e.getButton() == 3) {
-                        game.attack(game.getPlayerLocation());
+                        Point loc = gp.getGridCoords(e.getPoint());
+                        Particle p = game.getParticle(loc.x, loc.y);
+                        if (p == null) {
+                            game.attack(game.getPlayerLocation());
+                        } else {
+                            List<Point> attack = p.getAttack();
+                            gp.showAttack(p.getLocation(), attack);
+                        }
                     }
                 }
             });
             frame.setResizable(true);
             frame.setVisible(true);
+        });
+        gp.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                gp.setMouse(e.getPoint());
+            }
         });
 
         // Repaint the view at 60 FPS

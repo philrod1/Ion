@@ -1,6 +1,7 @@
 package model.particles;
 
 import java.awt.Point;
+import java.util.List;
 
 public interface Particle {
     Point getLocation();
@@ -10,4 +11,5 @@ public interface Particle {
     void setDead();
     int getTypeId();
 
+    List<Point> getAttack();
 }

@@ -1,6 +1,8 @@
 package model.particles;
 
 import java.awt.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PlayerParticle extends AbstractParticle {
 
@@ -24,5 +26,10 @@ public class PlayerParticle extends AbstractParticle {
     @Override
     public String toString() {
         return "@";
+    }
+
+    @Override
+    public List<Point> getAttack() {
+        return new LinkedList<>();
     }
 }

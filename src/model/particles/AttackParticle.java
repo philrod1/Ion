@@ -36,4 +36,11 @@ public class AttackParticle extends AbstractParticle {
     public int getTypeId() {
         return 2;
     }
+
+    @Override
+    public List<Point> getAttack() {
+        List<Point> moves = getPossibleMoves();
+        moves.remove(location);
+        return moves;
+    }
 }
