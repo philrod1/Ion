@@ -13,7 +13,10 @@ public class GamePanel extends JPanel {
             new Color(0,0,0,0),
             Color.RED,
             Color.BLUE,
-            Color.BLACK
+            Color.BLACK,
+            Color.GREEN,
+            Color.PINK,
+            Color.YELLOW
     };
 
     private final static double step = Math.PI / FRAMES;
