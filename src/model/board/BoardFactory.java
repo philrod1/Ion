@@ -1,6 +1,7 @@
 package model.board;
 
 import model.particles.AttackParticle;
+import model.particles.KnightParticle;
 import model.particles.Particle;
 
 import java.awt.Point;
@@ -26,6 +27,16 @@ public class BoardFactory {
         GameBoard board = new ArrayBoard(width, height);
         for (int i = 0 ; i < nParticles ; i++) {
             Particle ap = new AttackParticle();
+            ap.setLocation(new Point(RNG.nextInt(width), RNG.nextInt(height)));
+            board.putParticle(ap);
+        }
+        return board;
+    }
+
+    public static GameBoard newMultipleParticleBoard(int width, int height, int nParticles) {
+        GameBoard board = new ArrayBoard(width, height);
+        for (int i = 0 ; i < nParticles ; i++) {
+            Particle ap = (Math.random() > 0.5) ? new AttackParticle() : new KnightParticle();
             ap.setLocation(new Point(RNG.nextInt(width), RNG.nextInt(height)));
             board.putParticle(ap);
         }

@@ -5,7 +5,7 @@ import java.awt.Point;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AttackParticle extends AbstractParticle {
+public class KnightParticle extends AbstractParticle {
 
     @Override
     public Point moveTowardsLocation(Point player) {
@@ -24,19 +24,23 @@ public class AttackParticle extends AbstractParticle {
 
     @Override
     public int getTypeId() {
-        return 2;
+        return 4;
     }
 
     @Override
     public List<Point> getAttack() {
         List<Point> moves = new LinkedList<>();
-        for (int y = location.y - 1 ; y <= location.y + 1 ; y++) {
-            for (int x = location.x - 1 ; x <= location.x + 1 ; x++) {
-                if (!(x == location.x && y == location.y)) {
-                    moves.add(new Point(x, y));
-                }
-            }
-        }
+        moves.add(new Point(location.x-1, location.y-2));
+        moves.add(new Point(location.x+1, location.y-2));
+
+        moves.add(new Point(location.x-2, location.y-1));
+        moves.add(new Point(location.x+2, location.y-1));
+
+        moves.add(new Point(location.x-2, location.y+1));
+        moves.add(new Point(location.x+2, location.y+1));
+
+        moves.add(new Point(location.x-1, location.y+2));
+        moves.add(new Point(location.x+1, location.y+2));
         return moves;
     }
 }

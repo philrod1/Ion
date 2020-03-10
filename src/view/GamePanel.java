@@ -97,7 +97,10 @@ public class GamePanel extends JPanel {
         if (animationFrame == FRAMES/8) {
             animationFrame = 0;
             for (AnimationData animation : animations) {
-                board[animation.getStop().y][animation.getStop().x] = animation.getType();
+                Point stop = animation.getStop();
+                if (!(stop.x < 0 || stop.x >= getWidth() || stop.y < 0 || stop.y >= getHeight())) {
+                    board[stop.y][stop.x] = animation.getType();
+                }
             }
             animations.clear();
         }
@@ -111,8 +114,8 @@ public class GamePanel extends JPanel {
                 int type = board[y][x];
                 if (type > 0) {
                     int pf = (pulseFrame + 21 * type) % FRAMES;
-                    double px = sx * 0.8 + Math.sin(step * pf) * (sx * 0.2);
-                    double py = sy * 0.8 + Math.sin(step * pf) * (sy * 0.2);
+                    double px = sx * 0.5 + Math.sin(step * pf) * (sx * 0.5);
+                    double py = sy * 0.5 + Math.sin(step * pf) * (sy * 0.5);
                     g.setColor(COLOURS[type]);
                     g.fillOval((int)(((x * sx + 2) - px/2) + sx/2), (int)(((y * sy + 1)-py/2) + sy/2), (int)px-2, (int)py-1);
                 }

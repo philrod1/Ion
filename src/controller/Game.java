@@ -22,7 +22,8 @@ public class Game {
         this.width = width;
         this.height = height;
 //        board = BoardFactory.newSingleAttackParticleBoard(width, height);
-        board = BoardFactory.newMultipleAttackParticleBoard(width, height, 20);
+//        board = BoardFactory.newMultipleAttackParticleBoard(width, height, 20);
+        board = BoardFactory.newMultipleParticleBoard(width, height, 20);
         player = new PlayerParticle();
         player.setLocation(new Point(RNG.nextInt(board.getWidth()), RNG.nextInt(board.getHeight())));
         board.putParticle(player);

@@ -6,7 +6,6 @@ import view.GamePanel;
 import javax.swing.*;
 import java.awt.Point;
 import java.awt.event.*;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -17,8 +16,8 @@ public class TempMain {
 
     public static void main(String[] args) {
         final int scale = 30;
-        final int width = 30;
-        final int height = 30;
+        final int width = 20;
+        final int height = 20;
         Game game = new Game(width, height);
         GamePanel gp = new GamePanel(game.getParticleTypeArray());
         SwingUtilities.invokeLater(() -> {
@@ -43,8 +42,10 @@ public class TempMain {
                                 Point start = p.getLocation();
                                 Point stop = p.moveTowardsLocation(next);
                                 gp.animateMove(start, stop);
-                                p.setLocation(stop);
-                                game.putParticle(p);
+                                if (!(stop.x < 0 || stop.x >= width || stop.y < 0 || stop.y >= height)) {
+                                    p.setLocation(stop);
+                                    game.putParticle(p);
+                                }
                             }
                         }
                     }
@@ -69,8 +70,10 @@ public class TempMain {
                                     Point start = p.getLocation();
                                     Point stop = p.moveTowardsLocation(next);
                                     gp.animateMove(start, stop);
-                                    p.setLocation(stop);
-                                    game.putParticle(p);
+                                    if (!(stop.x < 0 || stop.x >= width || stop.y < 0 || stop.y >= height)) {
+                                        p.setLocation(stop);
+                                        game.putParticle(p);
+                                    }
                                 }
                             }
                         }
